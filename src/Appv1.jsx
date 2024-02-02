@@ -148,7 +148,7 @@ function Weather({weather}) {
        {Math.floor(temp_min)}&deg; &mdash; <strong>{Math.ceil(temp_max)}&deg;</strong>
        </p>
        <span>{description}</span>
-       <small>latitude:-{lat} longitude:-{lon}</small>
+       <small className="geocode">latitude:-{lat} longitude:-{lon}</small>
        
     </li>
       }

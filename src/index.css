@@ -19,8 +19,12 @@ body {
   font-family: "Cinzel Decorative", cursive;
   font-size: 2rem;
   height: 100vh;
-  color: #222;
-  background-color:#F0F0F0;
+  color: #f0f0f0;
+  background-image: url("D:\Projects\Weather-Info\public\weather-3.avif");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  filter: saturate(0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,11 +37,7 @@ body {
   justify-content: center;
   align-items: start;
   gap: 4rem;
-  border: 2px solid #222;
-  outline: 2px solid #222;
-  outline-offset: 1.2rem;
   position: relative;
-  background-color:#ffe8cc;
 }
 
 .moreinfo {
@@ -47,23 +47,21 @@ body {
   bottom: 0;
   width: 35%;
   height: 80vh;
-  background-color: #1c1c1c;
-  opacity: 0.7;
-  z-index: 3;
-  color: #fff;
+  background-color: #f0f0f0;
 }
 .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
- padding-right: 2rem;
+  padding-right: 2rem;
 }
 .content {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-around;
-   list-style: none;
-   padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  list-style: none;
+  color: #1c1c1c;
+  padding-left: 1rem;
 }
 .moreinfo p {
   margin-top: 1rem;
@@ -72,11 +70,14 @@ body {
 .close {
   width: 20px;
   height: auto;
-  color: #fff;
+  color: #1c1c1c;
   display: block;
-  padding: .4rem;
+  padding: 0.4rem;
   font-size: 3rem;
   cursor: pointer;
+}
+.close:hover {
+  color: #ffa94d;
 }
 
 h1 {
@@ -89,74 +90,79 @@ h1 {
 h2 {
   text-align: center;
   margin-bottom: 2.4rem;
+  color: #1c1c1c;
 }
 
 .weather {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  background-color:#ffe8cc;
-  box-shadow: 0px 1px 1px 2px #ffa94d;
+  z-index: 2;
+  color: #1c1c1c;
 }
 
 .weather li {
-   width: 100%;
-   height: 100%;
-   background-color: #FFF4E6;
-   padding: .3rem;
+  width: 100%;
+  height: 100%;
+  padding: 0.3rem;
 }
 .input-container {
-   width: 100%;
-   height: auto;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   gap: 1rem .5rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem 0.5rem;
 }
 
- input {
+input {
   font-family: inherit;
-  color: inherit;
+  color: #000;
   font-size: 2rem;
-  background-color: #FFFFFF;
+  background-color: transparent;
   padding: 1.2rem 3.2rem;
   border: none;
   margin: 1rem;
   align-self: center;
+  box-shadow: 1px 1px 2px 2px #545a72;
   width: 32rem;
 }
 input::placeholder {
   text-align: center;
 }
 input:focus {
-  outline: 2px solid #ff922b;
+  outline: 2px solid #545a72;
 }
 
- button {
+button {
   margin: 1rem 2rem;
-  padding: .5rem 3rem;
+  padding: 0.5rem 3rem;
   align-self: start;
   cursor: pointer;
   border: none;
-  background-color:#ffa94d;
- border-radius: 15%;
+  background-color: #ffa94d;
+  border-radius: 15%;
 }
- button:hover {
+button:hover {
   background-color: #f0f0f0;
   box-shadow: 1px 1px 1px 1px #ccc;
- }
+}
 
 .day {
-  background-color: #f0d2ce;
+  background-color: transparent;
   padding: 1.6rem 0 2rem;
   width: auto;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
   cursor: pointer;
+  position: relative;
+}
+
+.geocode {
+  position: absolute;
 }
 
 .day span {
@@ -171,4 +177,22 @@ input:focus {
 .loader {
   font-size: 2.4rem;
   font-weight: 700;
+}
+
+@media screen and(max-width: 500px) {
+  body {
+    background-image: url("/weather-3.avif");
+    background-size: 60%;
+  }
+  .app {
+    width: 100%;
+    height: 100%;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  span {
+    font-size: 20%;
+  }
 }
