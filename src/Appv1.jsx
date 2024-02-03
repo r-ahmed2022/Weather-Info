@@ -1,6 +1,8 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
+import noweather from   './noweather.png'
+
 const KEY = "cf6967fd1784732aebe4bdb9186f3879";
 
 function convertToFlag(countryCode) {
@@ -21,7 +23,7 @@ export default function Appv1() {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({});
   const [error, setError] = useState(null);
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState({location: '', status: false});
   const [displayLocation, setDisplayLocation] = useState("");
   const [moreInfo, setMoreInfo] = useState(false);
   const [weatherData, setWeatherData] = useState({
@@ -44,13 +46,16 @@ export default function Appv1() {
       await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${displayLocation}&appid=cf6967fd1784732aebe4bdb9186f3879&units=metric`
       )
-        .then((response) =>  response.json())
-        .then((data) => 
-          {
-          if(data.message) return
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.message)
+          setCity({location: data.message, status : true})
+         else
+         setCity({...city, status : false})
           setIsLocal(false);
           setWeatherData((prev) => ({ ...prev, weather: data }));
           setIsLoading(false);
+          
         })
         .catch((error) => {
           console.error(error);
@@ -58,7 +63,7 @@ export default function Appv1() {
     }
     if (displayLocation.length < 3) {
       setIsLocal(true);
-    //  setWeatherData((prev) => ({ ...prev, weather: {} }));
+      setWeatherData((prev) => ({ ...prev, weather: {} }));
       setError("");
       return;
     }
@@ -104,9 +109,10 @@ export default function Appv1() {
                   ? weatherData.localWeather
                   : weatherData.weather
               }
-              location={weatherData.displayLocation}
+              location={displayLocation}
               city={city}
               isLocal={isLocal}
+              setDisplayLocation={setDisplayLocation}
             />
           </>
         ) : (
@@ -117,6 +123,7 @@ export default function Appv1() {
         onClick={() =>
           handleClick(isLocal ? weatherData.weather : weatherData.localWeather)
         }
+        disabled={city.status}
       >
         More Info
       </button>
@@ -145,16 +152,16 @@ function Input({ location, setDisplayLocation }) {
   );
 }
 
-function Weather({ weather }) {
+function Weather({ weather, city }) {
   const { temp, temp_min, temp_max } =
     weather && weather.main ? weather.main : "No Weather found";
-  const place = weather.name;
-  const { lat, lon } =
-    weather && weather.coord ? weather.coord : "No Geo location found";
+  const place = weather.name && weather.name ? weather.name : city.location;
+  const { lat, lon } = weather && weather.coord ? weather.coord : "";
   const { description, icon, main } =
     weather && weather.weather ? weather.weather[0] : "Weather info not found";
-  const iconUrl =
-    `http://openweathermap.org/img/wn/${icon}@2x.png` || "No Icon found";
+  const iconUrl = icon ?
+    `http://openweathermap.org/img/wn/${icon}@2x.png`
+    : noweather
 
   return (
     <div>
@@ -163,16 +170,17 @@ function Weather({ weather }) {
         {
           <li className="day">
             <p>
-              <img src={iconUrl} />
+              <img src={iconUrl}/>
             </p>
-            <span>{temp}</span>
+            <span>{temp || 0}&deg;</span>
             <p>
-              {Math.floor(temp_min)}&deg; &mdash;{" "}
-              <strong>{Math.ceil(temp_max)}&deg;</strong>
+              {Math.floor(temp_min) || 0}&deg; &mdash;{" "}
+              <strong>{Math.ceil(temp_max) || 0}&deg;</strong>
             </p>
             <span>{description}</span>
             <small className="geocode">
-              latitude:-{lat} longitude:-{lon}
+              {lat && "latitude:"}-{lat}
+              {lon && "longitude:"}-{lon}
             </small>
           </li>
         }
