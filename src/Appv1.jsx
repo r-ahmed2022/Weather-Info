@@ -119,7 +119,11 @@ export default function Appv1() {
           <p>Loading ...</p>
         )}
       </div>
-      <button
+     
+      {
+        !isLoading &&
+      <>
+        <button
         onClick={() =>
           handleClick(isLocal ? weatherData.weather : weatherData.localWeather)
         }
@@ -127,7 +131,11 @@ export default function Appv1() {
       >
         More Info
       </button>
-      {moreInfo && (
+      </>
+      }
+     
+     
+      {moreInfo &&  (
         <MoreInfo
           weather={
             isLocal && weatherData
